@@ -15,7 +15,7 @@ namespace Clustering {
             dim = d;
         values = new double[dim];
         for (int n = 0; n < dim; n++)
-            setValue(n-1, 0);
+            setValue(n+1, 0);
     }
     Point::Point(int d, double *points) {
 
@@ -29,12 +29,11 @@ namespace Clustering {
     }
 
         //Big3
-        //NOT DONE
     Point::Point(const Point &p) {
-
             dim = p.getDims();
             for (int n = 0; n < dim; n++)
-                values[n] = p.values[n];
+                setValue(n+1, p.getValue(n+1));
+
     }
     Point &Point::operator=(const Point &rhs) {
         assert(dim == rhs.getDims());
@@ -50,7 +49,8 @@ namespace Clustering {
         return *this;
     }
     Point::~Point() {
-        delete[] values;
+        if(values != nullptr)
+            delete[] values;
     }
 
     //Accessors/Mutators
@@ -162,6 +162,7 @@ namespace Clustering {
             }
             if(lhs.getValue(n) < rhs.getValue(n))
                 return true;
+
         }
 
     }
@@ -209,6 +210,7 @@ namespace Clustering {
             else
                 os << p.getValue(n+1);
         os << ")";
+        return os;
     }
     std::istream &operator>>(std::istream &is, Point &p)
     {
