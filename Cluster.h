@@ -34,6 +34,7 @@ namespace Clustering {
         // Set functions: They allow calling c1.add(c2.remove(p));
         void add(const PointPtr &);
         const PointPtr &remove(const PointPtr &);
+        void deleteAll();
 
         // Overloaded operators
 
