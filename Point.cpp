@@ -4,6 +4,8 @@
 #include "Point.h"
 #include <cmath>
 #include "assert.h"
+#include <stdlib.h>
+
 using namespace std;
 
 namespace Clustering {
@@ -29,11 +31,11 @@ namespace Clustering {
     }
 
         //Big3
-    Point::Point(const Point &p) {
+    Point::Point(const Point &p)
+        {
             dim = p.getDims();
             for (int n = 0; n < dim; n++)
                 setValue(n+1, p.getValue(n+1));
-
     }
     Point &Point::operator=(const Point &rhs) {
         assert(dim == rhs.getDims());
@@ -43,9 +45,10 @@ namespace Clustering {
                 equal = false;
         if (equal)
             return *this;
-        else
+        else {
             for (int n = 0; n < dim; n++)
                 values[n] = rhs.values[n];
+        }
         return *this;
     }
     Point::~Point() {
@@ -181,7 +184,6 @@ namespace Clustering {
             if(lhs.getValue(n) < rhs.getValue(n))
                 return true;
         }
-
     }
     bool operator >(const Point &lhs, const Point &rhs)
     {
@@ -203,21 +205,25 @@ namespace Clustering {
     }
 
     std::ostream &operator<<(std::ostream &os, const Point &p) {
-        os << "(";
         for (int n = 0; n < p.getDims(); n++)
             if (n != p.getDims() - 1)
                 os << p.getValue(n+1) << ",";
             else
                 os << p.getValue(n+1);
-        os << ")";
         return os;
     }
     std::istream &operator>>(std::istream &is, Point &p)
     {
-        double temp;
-        for(int n =0; n < p.getDims(); n++) {
-            cin >> temp;
-            p.setValue(n+1, temp);
+        string value;
+        double dval;
+        while(!is.eof()) {
+            for (int n = 0; n < p.getDims(); n++)
+            {
+                getline(is,value,',');
+                dval = atof(value.c_str());
+                p.setValue(n+1, dval);
+            }
         }
+        return is;
     }
 }
