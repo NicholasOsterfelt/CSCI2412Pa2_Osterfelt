@@ -19,9 +19,13 @@ namespace Clustering {
     class Cluster {
         int size;
         LNodePtr points;
+        int pdims = 2;
+        Point *centroid = new Point(pdims);
+        bool centroidValid = false;
+
 
     public:
-        Cluster() : size(0), points(nullptr) {};
+        Cluster() : size(0), points(nullptr), pdims(5) {};
 
         // The big three: cpy ctor, overloaded operator=, dtor
         Cluster(const Cluster &);
@@ -30,7 +34,9 @@ namespace Clustering {
         //accessor
         int getSize() const {return size;}
         LNodePtr getPoints() const {return points;}
-
+        int getDims() const {return pdims;}
+        Point getCentroid() const {return *centroid;}
+        bool getCValid() const {return centroidValid;}
         // Set functions: They allow calling c1.add(c2.remove(p));
         void add(const PointPtr &);
         const PointPtr &remove(const PointPtr &);
